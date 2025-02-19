@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ResourceOptimizer"
 include(":app")
+include(":ResourceMonitoring")
+include(":ResourceOptimization")
+include(":ResourceReporter")

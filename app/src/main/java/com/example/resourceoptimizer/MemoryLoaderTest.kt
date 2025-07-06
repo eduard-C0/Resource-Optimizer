@@ -1,4 +1,4 @@
-package com.example.resourcemonitoring.memory
+package com.example.resourceoptimizer
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
@@ -39,4 +39,16 @@ object MemoryLoaderTest {
         stressJob?.cancel()  // Stop the stress test
         stressJob = null
     }
+}
+
+data class MemoryReport(
+    val systemUsed: Float,
+    val systemTotal: Float,
+    val appUsedHeap: Float,
+    val appNative: Float,
+    val memoryUnit: MemoryUnit
+)
+
+enum class MemoryUnit {
+    BYTES, KB, MB, GB
 }

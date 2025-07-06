@@ -1,9 +1,6 @@
 package com.example.resourcemonitoring.cpu
 
-import android.app.ActivityManager
 import android.content.Context
-import android.util.Log
-import com.example.resourcemonitoring.battery.BatteryInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,21 +12,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.io.RandomAccessFile
 
 class CpuMonitorImpl: CpuMonitor {
     private var monitoringJob: Job? = null
 
-    private val _cpuUsage: MutableStateFlow<String?> = MutableStateFlow(null)
-    override val cpuUsage: Flow<String?> = _cpuUsage
+    private val _cpuUsage: MutableStateFlow<Float?> = MutableStateFlow(null)
+    override val cpuUsage: Flow<Float?> = _cpuUsage
 
     override fun startMonitoring(context: Context) {
         monitoringJob = CoroutineScope(Dispatchers.IO).launch {
             while (isActive) {
                 withContext(Dispatchers.Main) {
-                    _cpuUsage.emit(String.format("%.2f%%", getNormalizedAppCpuUsage()))
+                    _cpuUsage.emit(getNormalizedAppCpuUsage())
                 }
-                getNormalizedAppCpuUsage().also { Log.e("MYERROR", "cpuUsage: $it") }
                 delay(5000)
             }
         }
@@ -39,7 +34,7 @@ class CpuMonitorImpl: CpuMonitor {
         monitoringJob?.cancel()
     }
 
-    fun getNormalizedAppCpuUsage(): Float {
+    private fun getNormalizedAppCpuUsage(): Float {
         val pid = android.os.Process.myPid().toString()
         val process = Runtime.getRuntime().exec("top -n 1")
         val reader = BufferedReader(InputStreamReader(process.inputStream))

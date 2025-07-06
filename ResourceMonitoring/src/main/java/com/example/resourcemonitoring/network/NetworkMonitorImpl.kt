@@ -1,14 +1,7 @@
 package com.example.resourcemonitoring.network
 
-import android.app.usage.NetworkStats
-import android.app.usage.NetworkStatsManager
 import android.content.Context
-import android.net.ConnectivityManager
 import android.net.TrafficStats
-import android.os.RemoteException
-import android.util.Log
-import com.example.resourcemonitoring.memory.MemoryConverter
-import com.example.resourcemonitoring.memory.MemoryUnit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

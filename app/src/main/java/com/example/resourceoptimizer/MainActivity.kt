@@ -22,35 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
-import com.example.resourcemonitoring.battery.BatteryMonitor
-import com.example.resourcemonitoring.cpu.CpuLoaderTest
-import com.example.resourcemonitoring.cpu.CpuMonitor
-import com.example.resourcemonitoring.memory.MemoryLoaderTest
-import com.example.resourcemonitoring.memory.MemoryMonitor
-import com.example.resourcemonitoring.memory.MemoryReport
-import com.example.resourcemonitoring.memory.MemoryUnit
-import com.example.resourcemonitoring.network.NetworkMonitor
+import com.example.resourceoptimization.ResourceOptimizerImpl
 import com.example.resourceoptimizer.ui.theme.ResourceOptimizerTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var batteryMonitor: BatteryMonitor
-
-    @Inject
-    lateinit var memoryMonitor: MemoryMonitor
-
-    @Inject
-    lateinit var cpuMonitor: CpuMonitor
-
-    @Inject
-    lateinit var networkMonitor: NetworkMonitor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,28 +42,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        cpuMonitor.startMonitoring(this)
-        memoryMonitor.startMonitoring(this, MemoryUnit.MB)
-        batteryMonitor.startMonitor(this)
-        networkMonitor.startMonitoring(this)
-
-
-        cpuMonitor.cpuUsage.onEach {
-            Log.e("MYERROR", "cpuMonitor: $it")
-        }.launchIn(lifecycleScope)
-
-        batteryMonitor.batteryLevel.onEach {
-            Log.e("MYERROR", "batteryMonitor: $it")
-        }.launchIn(lifecycleScope)
-
-        memoryMonitor.memoryLevel.onEach {
-            it?.let { memoryReport -> logMemoryUsage(memoryReport) }
-        }.launchIn(lifecycleScope)
-
-        networkMonitor.networkDataUsage.onEach {
-            Log.e("MYERROR", "mobileDataUsage: $it")
-        }.launchIn(lifecycleScope)
+        val resourceOptimizer = ResourceOptimizerImpl()
+        resourceOptimizer.init(this)
     }
 
 }

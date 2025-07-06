@@ -1,4 +1,4 @@
-package com.example.resourcemonitoring.cpu
+package com.example.resourceoptimizer
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface CpuMonitor {
     fun startMonitoring(context: Context)
     fun stopMonitoring()
-    val cpuUsage: Flow<String?>
+    val cpuUsage: Flow<Float?>
 }

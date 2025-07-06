@@ -59,7 +59,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    implementation(project(":ResourceMonitoring"))
+    implementation(project(":ResourceOptimization"))
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
 }
